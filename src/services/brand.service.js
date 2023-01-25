@@ -9,11 +9,15 @@ class BrandService {
 			throw new Error('All fields are required. Please ensure all fields are completed');
 		}
 
-		return db.execute(`INSERT INTO tbl_brand (BrandName) VALUES (?)`, [BrandName]);
+		return db.execute(`INSERT INTO tbl_brand (BrandName) VALUES (TRIM(?))`, [BrandName]);
 	};
 
 	static getAllBrand = async () => {
 		return db.execute('SELECT * FROM tbl_brand');
+	};
+
+	static getBrandById = async (BrandID) => {
+		return db.execute(`SELECT * FROM tbl_brand WHERE BrandID = ?`, [BrandID]);
 	};
 
 	static updateById = async (id, updatedBrandName, isActive) => {
@@ -21,7 +25,7 @@ class BrandService {
 			throw new Error('All fields are required. Please ensure all fields are completed');
 		}
 
-		return db.execute(`UPDATE tbl_brand SET BrandName = ?, isActive = ? WHERE BrandID = ? `, [
+		return db.execute(`UPDATE tbl_brand SET BrandName = TRIM(?), IsActive = ? WHERE BrandID = ?`, [
 			updatedBrandName,
 			isActive,
 			id,

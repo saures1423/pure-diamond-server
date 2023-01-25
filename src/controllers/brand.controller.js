@@ -4,9 +4,9 @@ exports.postBrand = async (req, res) => {
 	const BrandName = req.body.BrandName;
 
 	try {
-		await BrandService.create(BrandName);
+		const brand = await BrandService.create(BrandName);
 
-		res.status(200).json({ message: 'New brand name has been added' });
+		res.status(200).json({ message: 'New brand name has been added', brand });
 	} catch (err) {
 		if (err.code === 'ER_DUP_ENTRY') {
 			return res.status(400).send({ message: 'Brand name already exists in the database' });
@@ -27,11 +27,16 @@ exports.getAllBrand = async (_, res) => {
 
 exports.updateBrandById = async (req, res) => {
 	const BrandName = req.body.BrandName;
-	const isActive = req.body.isActive;
+	const IsActive = req.body.IsActive;
 	const BrandID = req.params.BrandID;
 	try {
-		const [rows, _] = await BrandService.updateById(BrandID, BrandName, isActive);
+		// const [rows, _] = await BrandService.getBrandById(BrandID);
 
+		const [results, _] = await BrandService.updateById(BrandID, BrandName, IsActive);
+
+		if (results?.changedRows === 0) {
+			return res.status(200).send({});
+		}
 		res.status(200).json({ message: 'Brand has been updated' });
 	} catch (err) {
 		if (err.code === 'ER_DUP_ENTRY') {

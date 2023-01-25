@@ -37,8 +37,13 @@ exports.updateItem = async (req, res) => {
 	try {
 		const ItemID = req.params.ItemID;
 
-		await ItemsService.update(ItemID, req.body);
+		// const [rows, _] = await ItemsService.getItemById(ItemID);
 
+		const [results, _] = await ItemsService.update(ItemID, req.body);
+
+		if (results?.changedRows === 0) {
+			return res.status(200).send({});
+		}
 		res.status(200).json({ message: 'Inventory item has been updated.' });
 	} catch (err) {
 		if (err.code === 'ER_DUP_ENTRY') {
