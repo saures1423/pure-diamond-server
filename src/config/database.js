@@ -1,10 +1,10 @@
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-	host: 'localhost',
-	user: 'root',
-	database: 'db_inventory_sabornido',
-	password: 'UI82jwkl24fGh4KLpO',
+	host: process.env.HOST,
+	user: process.env.USER,
+	database: process.env.DB_NAME,
+	password: process.env.PASS,
 });
 
 pool.getConnection((err, connection) => {
