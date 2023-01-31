@@ -20,6 +20,13 @@ class BrandService {
 		return db.execute(`SELECT * FROM tbl_brand WHERE BrandID = ?`, [BrandID]);
 	};
 
+	static getLastID = async () => {
+		await db.execute('analyze table tbl_brand;');
+
+		return db.execute(`SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'tbl_brand' AND table_schema = DATABASE();
+`);
+	};
+
 	static updateById = async (id, updatedBrandName, isActive) => {
 		if (updatedBrandName === null || updatedBrandName.trim() === '') {
 			throw new Error('All fields are required. Please ensure all fields are completed');

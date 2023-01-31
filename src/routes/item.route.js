@@ -1,5 +1,11 @@
 const express = require('express');
-const { postItem, updateItem, getAllItems, deleteItem } = require('../controllers/item.controller');
+const {
+	postItem,
+	updateItem,
+	getAllItems,
+	deleteItem,
+	getLastID,
+} = require('../controllers/item.controller');
 const router = express.Router();
 
 /**
@@ -8,5 +14,7 @@ const router = express.Router();
 router.route('/').post(postItem).get(getAllItems);
 
 router.route('/:ItemID').patch(updateItem).delete(deleteItem);
+
+router.route('/lastID').get(getLastID);
 
 module.exports = router;

@@ -48,6 +48,13 @@ class ItemsService {
 	static deleteItem = async (id) => {
 		return db.execute(`DELETE FROM tbl_items WHERE ItemID = ?`, [id]);
 	};
+
+	static getLastID = async () => {
+		await db.execute('analyze table tbl_items;');
+
+		return db.execute(`SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'tbl_items' AND table_schema = DATABASE();
+`);
+	};
 }
 
 module.exports = ItemsService;

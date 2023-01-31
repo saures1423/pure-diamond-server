@@ -61,3 +61,18 @@ exports.deleteBrandById = async (req, res) => {
 		res.status(500).send({ message: err.message });
 	}
 };
+
+exports.getLastID = async (req, res) => {
+	try {
+		const [results, _] = await BrandService.getLastID();
+
+		res.status(200).json({ lastID: results });
+	} catch (err) {
+		if (err.code === 'ER_ROW_IS_REFERENCED_2') {
+			return res.status(400).send({
+				message: 'Brand cannot be deleted. This item is referred to by another object.',
+			});
+		}
+		res.status(500).send({ message: err.message });
+	}
+};

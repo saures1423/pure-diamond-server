@@ -6,6 +6,7 @@ const {
 	getAllBrand,
 	updateBrandById,
 	deleteBrandById,
+	getLastID,
 } = require('../controllers/brand.controller');
 
 /**
@@ -14,5 +15,7 @@ const {
 router.route('/').post(postBrand).get(getAllBrand);
 
 router.route('/:BrandID').patch(updateBrandById).delete(deleteBrandById);
+
+router.route('/lastID').get(getLastID);
 
 module.exports = router;
